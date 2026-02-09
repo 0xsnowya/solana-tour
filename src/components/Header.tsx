@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
-export function Header() {
+export function Header({ onStartLearning }: { onStartLearning: () => void }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   useEffect(() => {
@@ -12,18 +12,18 @@ export function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
   const navLinks = [
-  {
-    name: '学习路径',
-    href: '#learning-path'
-  },
-  {
-    name: '平台特色',
-    href: '#features'
-  },
-  {
-    name: '社区',
-    href: '#community'
-  }];
+    {
+      name: '学习路径',
+      href: '#learning-path'
+    },
+    {
+      name: '平台特色',
+      href: '#features'
+    },
+    {
+      name: '社区',
+      href: '#community'
+    }];
 
   return (
     <motion.header
@@ -49,15 +49,17 @@ export function Header() {
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center space-x-8">
           {navLinks.map((link) =>
-          <a
-            key={link.name}
-            href={link.href}
-            className="text-sm font-medium text-white/70 hover:text-white transition-colors">
+            <a
+              key={link.name}
+              href={link.href}
+              className="text-sm font-medium text-white/70 hover:text-white transition-colors">
 
               {link.name}
             </a>
           )}
-          <button className="px-5 py-2 rounded-full bg-[#9945FF] hover:bg-[#7e37d8] text-white text-sm font-semibold transition-all shadow-[0_0_15px_rgba(153,69,255,0.3)] hover:shadow-[0_0_25px_rgba(153,69,255,0.5)]">
+          <button
+            onClick={onStartLearning}
+            className="px-5 py-2 rounded-full bg-[#9945FF] hover:bg-[#7e37d8] text-white text-sm font-semibold transition-all shadow-[0_0_15px_rgba(153,69,255,0.3)] hover:shadow-[0_0_25px_rgba(153,69,255,0.5)]">
             开始学习
           </button>
         </nav>
@@ -74,32 +76,32 @@ export function Header() {
       {/* Mobile Nav */}
       <AnimatePresence>
         {isMobileMenuOpen &&
-        <motion.div
-          initial={{
-            opacity: 0,
-            height: 0
-          }}
-          animate={{
-            opacity: 1,
-            height: 'auto'
-          }}
-          exit={{
-            opacity: 0,
-            height: 0
-          }}
-          className="md:hidden bg-[#0c0a2a] border-b border-white/10 overflow-hidden">
+          <motion.div
+            initial={{
+              opacity: 0,
+              height: 0
+            }}
+            animate={{
+              opacity: 1,
+              height: 'auto'
+            }}
+            exit={{
+              opacity: 0,
+              height: 0
+            }}
+            className="md:hidden bg-[#0c0a2a] border-b border-white/10 overflow-hidden">
 
             <div className="px-6 py-4 flex flex-col space-y-4">
               {navLinks.map((link) =>
-            <a
-              key={link.name}
-              href={link.href}
-              className="text-white/70 hover:text-white font-medium"
-              onClick={() => setIsMobileMenuOpen(false)}>
+                <a
+                  key={link.name}
+                  href={link.href}
+                  className="text-white/70 hover:text-white font-medium"
+                  onClick={() => setIsMobileMenuOpen(false)}>
 
                   {link.name}
                 </a>
-            )}
+              )}
               <button className="w-full py-3 rounded-lg bg-[#9945FF] text-white font-semibold">
                 开始学习
               </button>

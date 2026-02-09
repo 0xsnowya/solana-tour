@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Play } from 'lucide-react';
-export function HeroSection() {
+import { DemoModal } from './DemoModal';
+
+export function HeroSection({ onStartLearning }: { onStartLearning: () => void }) {
+  const [isDemoOpen, setIsDemoOpen] = useState(false);
   // Generate random particles
   const particles = Array.from({
     length: 30
@@ -22,7 +25,7 @@ export function HeroSection() {
           className="absolute inset-0 opacity-40"
           style={{
             background:
-            'radial-gradient(circle at 50% 50%, #9945FF 0%, transparent 50%), radial-gradient(circle at 80% 20%, #14F195 0%, transparent 30%)',
+              'radial-gradient(circle at 50% 50%, #9945FF 0%, transparent 50%), radial-gradient(circle at 80% 20%, #14F195 0%, transparent 30%)',
             filter: 'blur(60px)',
             animation: 'pulse-glow 10s ease-in-out infinite alternate'
           }} />
@@ -43,17 +46,17 @@ export function HeroSection() {
 
       {/* Particles */}
       {particles.map((p) =>
-      <div
-        key={p.id}
-        className="absolute rounded-full bg-white opacity-20"
-        style={{
-          width: p.size,
-          height: p.size,
-          left: `${p.left}%`,
-          top: `${p.top}%`,
-          animation: `float ${p.duration}s ease-in-out infinite`,
-          animationDelay: `${p.delay}s`
-        }} />
+        <div
+          key={p.id}
+          className="absolute rounded-full bg-white opacity-20"
+          style={{
+            width: p.size,
+            height: p.size,
+            left: `${p.left}%`,
+            top: `${p.top}%`,
+            animation: `float ${p.duration}s ease-in-out infinite`,
+            animationDelay: `${p.delay}s`
+          }} />
 
       )}
 
@@ -92,6 +95,7 @@ export function HeroSection() {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <motion.button
+              onClick={onStartLearning}
               whileHover={{
                 scale: 1.05
               }}
@@ -105,6 +109,7 @@ export function HeroSection() {
             </motion.button>
 
             <motion.button
+              onClick={() => setIsDemoOpen(true)}
               whileHover={{
                 scale: 1.05,
                 backgroundColor: 'rgba(255,255,255,0.1)'
@@ -140,6 +145,8 @@ export function HeroSection() {
         </span>
         <div className="w-[1px] h-12 bg-gradient-to-b from-[#9945FF] to-transparent" />
       </motion.div>
+
+      <DemoModal isOpen={isDemoOpen} onClose={() => setIsDemoOpen(false)} />
     </section>);
 
 }
